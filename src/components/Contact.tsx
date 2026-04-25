@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Sphere, MeshDistortMaterial } from "@react-three/drei";
 import { motion } from "framer-motion";
@@ -40,7 +40,7 @@ export default function Contact() {
           style={{ flex: "1 1 480px", minWidth: "300px", zIndex: 10 }}
         >
           <h2 style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 700, color: "#fff", letterSpacing: "-0.03em", marginBottom: "24px" }}>
-            <span style={{ fontFamily: "'Fira Code', monospace", fontSize: "clamp(1.2rem, 2.5vw, 1.75rem)", color: "#00FF41", marginRight: "12px", fontWeight: 400 }}>04.</span>
+            <span style={{ fontFamily: "'Fira Code', monospace", fontSize: "clamp(1.2rem, 2.5vw, 1.75rem)", color: "#00FF41", marginRight: "12px", fontWeight: 400 }}>05.</span>
             <span style={{ display: "block", marginTop: "8px" }}>Let&apos;s Connect</span>
           </h2>
           <p style={{ color: "rgba(156,163,175,0.8)", fontSize: "16px", lineHeight: 1.7, marginBottom: "40px", maxWidth: "450px" }}>
@@ -78,19 +78,6 @@ export default function Contact() {
               >
                 <span style={{ fontSize: "16px" }}>✉</span>
                 sumitkumarkhadanga@gmail.com
-              </a>
-              <a
-                href="tel:+918904198131"
-                style={{
-                  display: "flex", alignItems: "center", gap: "10px",
-                  fontFamily: "'Fira Code', monospace", fontSize: "13px",
-                  color: "#9ca3af", textDecoration: "none", transition: "color 0.3s",
-                }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = "#00E5FF"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = "#9ca3af"; }}
-              >
-                <span style={{ fontSize: "16px" }}>📞</span>
-                +91 8904198131
               </a>
             </div>
 
@@ -175,12 +162,14 @@ export default function Contact() {
           transition={{ duration: 0.8 }}
           style={{ flex: "1 1 400px", minWidth: "300px", height: "500px", cursor: "grab" }}
         >
-          <Canvas camera={{ position: [0, 0, 5] }} dpr={[1, 2]}>
-            <ambientLight intensity={0.3} />
-            <directionalLight position={[10, 10, 5]} intensity={0.8} />
-            <pointLight position={[-10, -10, -5]} intensity={0.3} color="#00FF41" />
-            <AnimatedSphere />
-            <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.4} />
+          <Canvas camera={{ position: [0, 0, 5] }} dpr={[1, 1.5]}>
+            <Suspense fallback={null}>
+              <ambientLight intensity={0.3} />
+              <directionalLight position={[10, 10, 5]} intensity={0.8} />
+              <pointLight position={[-10, -10, -5]} intensity={0.3} color="#00FF41" />
+              <AnimatedSphere />
+              <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.4} />
+            </Suspense>
           </Canvas>
         </motion.div>
       </div>

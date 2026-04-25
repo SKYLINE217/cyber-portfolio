@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaGithub } from "react-icons/fa";
+import DOMPurify from "dompurify";
 
 const projects = [
   {
@@ -47,19 +48,36 @@ function ReadmeModal({ project, onClose }: { project: Project; onClose: () => vo
   const [error, setError]     = useState(false);
   const [loading, setLoading] = useState(true);
 
+  // README fetch cache (avoids re-fetching on repeated modal opens)
+  const readmeCache = useRef<Map<string, string>>(new Map());
+
   useEffect(() => {
     setHtml(null);
     setError(false);
     setLoading(true);
 
-    fetch(`https://api.github.com/repos/${project.repoId}/readme`, {
-      headers: { Accept: "application/vnd.github.html+json" },
-    })
+    // Return cached result instantly
+    if (readmeCache.current.has(project.repoId)) {
+      setHtml(readmeCache.current.get(project.repoId)!);
+      setLoading(false);
+      return;
+    }
+
+    fetch(`/api/readme?repo=${encodeURIComponent(project.repoId)}`)
       .then((res) => {
         if (!res.ok) throw new Error("not found");
         return res.text();
       })
-      .then((text) => { setHtml(text); setLoading(false); })
+      .then((raw) => {
+        // SEC-001: sanitize before injecting HTML
+        const clean = DOMPurify.sanitize(raw, {
+          USE_PROFILES: { html: true },
+          ADD_TAGS: ["details", "summary"],
+        });
+        readmeCache.current.set(project.repoId, clean);
+        setHtml(clean);
+        setLoading(false);
+      })
       .catch(() => { setError(true); setLoading(false); });
   }, [project.repoId]);
 
@@ -164,6 +182,7 @@ function ReadmeModal({ project, onClose }: { project: Project; onClose: () => vo
         >
           {loading && (
             <div style={{
+              minHeight: "240px",
               height: "100%", display: "flex", flexDirection: "column",
               alignItems: "center", justifyContent: "center", gap: "16px",
               color: "#6b7280", fontFamily: "'Fira Code', monospace", fontSize: "13px",
@@ -183,6 +202,7 @@ function ReadmeModal({ project, onClose }: { project: Project; onClose: () => vo
 
           {error && !loading && (
             <div style={{
+              minHeight: "240px",
               height: "100%", display: "flex", flexDirection: "column",
               alignItems: "center", justifyContent: "center", gap: "16px",
               color: "#6b7280", fontFamily: "'Fira Code', monospace", fontSize: "13px",

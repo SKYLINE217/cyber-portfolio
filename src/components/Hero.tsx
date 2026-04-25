@@ -20,6 +20,7 @@ function StarBackground() {
   }, []);
 
   useFrame((_state, delta) => {
+    if (!ref.current) return;   // BUG-005: guard against unmounted ref
     ref.current.rotation.x -= delta / 12;
     ref.current.rotation.y -= delta / 18;
   });

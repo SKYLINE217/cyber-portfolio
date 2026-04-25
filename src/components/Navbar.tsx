@@ -13,11 +13,19 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // BUG-008: close mobile menu on Escape key
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => { if (e.key === "Escape") setMobileOpen(false); };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, []);
+
   const navLinks = [
     { name: "About", href: "#about", num: "01" },
     { name: "Projects", href: "#projects", num: "02" },
     { name: "Experience", href: "#experience", num: "03" },
-    { name: "Contact", href: "#contact", num: "04" },
+    { name: "Resume", href: "#resume", num: "04" },
+    { name: "Contact", href: "#contact", num: "05" },
   ];
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
