@@ -184,72 +184,63 @@ export default function Experience() {
           </motion.div>
 
           {/*
-            ┌───────────────────────────────────────────────┐
-            │  [40px rail col]  [gap 24px]  [card col flex1]│
-            └───────────────────────────────────────────────┘
-            Rail col holds the line + dots, perfectly centred.
+            Each row = [dot-col 40px | card flex-1]
+            One absolute line runs behind all rows so dots always
+            connect regardless of card height.
           */}
-          <div style={{ display: "flex", gap: "24px", alignItems: "stretch" }}>
+          <div ref={railRef} style={{ position: "relative" }}>
 
-            {/* Rail column – 40px wide, dots centred on line */}
-            <div ref={railRef} style={{ width: "40px", flexShrink: 0, position: "relative", display: "flex", flexDirection: "column", alignItems: "center" }}>
+            {/* Ghost track – spans full height of all rows */}
+            <div style={{
+              position: "absolute", top: 0, bottom: 0,
+              left: "19px",                    /* centre of 40px dot col */
+              width: "2px",
+              background: "rgba(255,255,255,0.05)",
+              borderRadius: "1px",
+            }} />
 
-              {/* Ghost track */}
-              <div style={{ position: "absolute", top: 0, bottom: 0, left: "50%", transform: "translateX(-50%)",
-                            width: "2px", background: "rgba(255,255,255,0.05)", borderRadius: "1px" }} />
+            {/* Animated fill */}
+            <motion.div style={{
+              position: "absolute", top: 0,
+              left: "19px",
+              width: "2px", borderRadius: "1px",
+              scaleY: lineScaleY,
+              transformOrigin: "top center",
+              height: "100%",
+              background: "linear-gradient(180deg, #00FF41 0%, #00E5FF 50%, #9D4EDD 100%)",
+            }} />
 
-              {/* Animated fill */}
-              <motion.div
-                style={{
-                  position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
-                  width: "2px", borderRadius: "1px",
-                  scaleY: lineScaleY,
-                  transformOrigin: "top center",
-                  height: "100%",
-                  background: "linear-gradient(180deg, #00FF41 0%, #00E5FF 50%, #9D4EDD 100%)",
-                }}
-              />
+            {/* Glowing bead */}
+            <motion.div style={{
+              position: "absolute",
+              left: "19px", translateX: "-50%",
+              top: beadPct,  translateY: "-50%",
+              width: "10px", height: "10px", borderRadius: "50%",
+              background: beadGlow,
+              boxShadow: "0 0 14px 6px rgba(0,229,255,0.6), 0 0 28px 12px rgba(0,229,255,0.2)",
+              zIndex: 20,
+            }} />
 
-              {/* Glowing bead */}
-              <motion.div
-                style={{
-                  position: "absolute",
-                  left: "50%",
-                  translateX: "-50%",
-                  top: beadPct,
-                  translateY: "-50%",
-                  width: "10px",
-                  height: "10px",
-                  borderRadius: "50%",
-                  background: beadGlow,
-                  boxShadow: "0 0 14px 6px rgba(0,229,255,0.6), 0 0 28px 12px rgba(0,229,255,0.2)",
-                  zIndex: 20,
-                }}
-              />
+            {/* One flex row per experience: [dot 40px] [card flex-1] */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "40px" }}>
+              {experiences.map((exp, i) => (
+                <div key={i} style={{ display: "flex", gap: "24px", alignItems: "flex-start" }}>
 
-              {/* Dots – positioned in flow so they sit exactly where each card is */}
-              <div style={{ width: "100%", display: "flex", flexDirection: "column", gap: "40px" }}>
-                {experiences.map((exp, i) => (
-                  <div key={i} style={{
-                    // Make each dot region match the card height via flex-grow isn't needed;
-                    // we just need the dot vertically centred at the top of each card (top: 24px equivalent)
-                    height: "84px",          // approx top padding (28px) + title (20px) + company row (16px) + breathing = ~84px to hit card header
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    position: "relative",
-                    flexShrink: 0,
+                  {/* Dot column – 40px, dot centred and offset to card-header height */}
+                  <div style={{
+                    width: "40px", flexShrink: 0,
+                    paddingTop: "28px",          /* matches card's top padding so dot = title level */
+                    display: "flex", justifyContent: "center",
+                    position: "relative", zIndex: 10,
                   }}>
                     <TimelineDot accent={exp.accent} index={i} />
                   </div>
-                ))}
-              </div>
-            </div>
 
-            {/* Cards column */}
-            <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "40px" }}>
-              {experiences.map((exp, i) => (
-                <ExperienceCard key={i} exp={exp} index={i} />
+                  {/* Card */}
+                  <div style={{ flex: 1 }}>
+                    <ExperienceCard exp={exp} index={i} />
+                  </div>
+                </div>
               ))}
             </div>
           </div>
