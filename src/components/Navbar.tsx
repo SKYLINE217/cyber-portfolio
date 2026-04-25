@@ -3,8 +3,89 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+/* ─── Live Clock ──────────────────────────────────────────── */
+function LiveClock() {
+  const [time, setTime] = useState<Date | null>(null);
+
+  useEffect(() => {
+    setTime(new Date());
+    const id = setInterval(() => setTime(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  if (!time) return null; // avoid hydration mismatch
+
+  const hours   = time.getHours();
+  const minutes = time.getMinutes().toString().padStart(2, "0");
+  const ampm    = hours >= 12 ? "pm" : "am";
+  const h12     = (hours % 12 || 12).toString().padStart(2, "0");
+  const dateStr = time.toLocaleDateString("en-US", { month: "long", day: "numeric" });
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: 0.9, duration: 0.5 }}
+      style={{
+        display: "flex",
+        alignItems: "baseline",
+        gap: "4px",
+        userSelect: "none",
+        marginLeft: "20px",
+        borderLeft: "1px solid rgba(255,255,255,0.07)",
+        paddingLeft: "20px",
+      }}
+    >
+      {/* HH:MM */}
+      <span
+        style={{
+          fontFamily: "'Fira Code', monospace",
+          fontSize: "22px",
+          fontWeight: 600,
+          color: "#fff",
+          letterSpacing: "-0.03em",
+          lineHeight: 1,
+        }}
+      >
+        {h12}
+        {/* blinking colon */}
+        <motion.span
+          animate={{ opacity: [1, 0, 1] }}
+          transition={{ duration: 1, repeat: Infinity, ease: "steps(1)" }}
+          style={{ color: "#00E5FF" }}
+        >
+          :
+        </motion.span>
+        {minutes}
+      </span>
+
+      {/* am/pm + date stacked */}
+      <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.2 }}>
+        <span style={{
+          fontFamily: "'Fira Code', monospace",
+          fontSize: "10px",
+          color: "#00E5FF",
+          fontWeight: 500,
+          letterSpacing: "0.05em",
+        }}>
+          {ampm}
+        </span>
+        <span style={{
+          fontFamily: "'Fira Code', monospace",
+          fontSize: "10px",
+          color: "#6b7280",
+          whiteSpace: "nowrap",
+        }}>
+          {dateStr}
+        </span>
+      </div>
+    </motion.div>
+  );
+}
+
+/* ─── Navbar ──────────────────────────────────────────────── */
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolled, setScrolled]     = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
@@ -21,11 +102,11 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: "About", href: "#about", num: "01" },
-    { name: "Projects", href: "#projects", num: "02" },
+    { name: "About",      href: "#about",      num: "01" },
+    { name: "Projects",   href: "#projects",   num: "02" },
     { name: "Experience", href: "#experience", num: "03" },
-    { name: "Resume", href: "#resume", num: "04" },
-    { name: "Contact", href: "#contact", num: "05" },
+    { name: "Resume",     href: "#resume",     num: "04" },
+    { name: "Contact",    href: "#contact",    num: "05" },
   ];
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -85,6 +166,7 @@ export default function Navbar() {
                 {link.name}
               </motion.a>
             ))}
+
             <motion.a
               href="/resume.pdf"
               target="_blank"
@@ -114,6 +196,9 @@ export default function Navbar() {
             >
               Resume
             </motion.a>
+
+            {/* 🕐 Live Clock */}
+            <LiveClock />
           </div>
 
           {/* Mobile Toggle */}
@@ -178,6 +263,9 @@ export default function Navbar() {
                   {link.name}
                 </a>
               ))}
+
+              {/* Clock in mobile menu too */}
+              <LiveClock />
             </motion.div>
           </motion.div>
         )}
