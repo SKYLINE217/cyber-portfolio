@@ -63,11 +63,16 @@ function ReadmeModal({ project, onClose }: { project: Project; onClose: () => vo
       .catch(() => { setError(true); setLoading(false); });
   }, [project.repoId]);
 
-  // close on Escape
+  // Lock body scroll + close on Escape
   useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", handler);
+    };
   }, [onClose]);
 
   return (
@@ -151,8 +156,12 @@ function ReadmeModal({ project, onClose }: { project: Project; onClose: () => vo
           >×</button>
         </div>
 
-        {/* Content area */}
-        <div style={{ flex: 1, overflowY: "auto", background: "#0d0d16" }}>
+        {/* Content area – captures its own scroll, prevents page scroll bleed */}
+        <div
+          style={{ flex: 1, overflowY: "scroll", background: "#0d0d16",
+                   WebkitOverflowScrolling: "touch" as React.CSSProperties["WebkitOverflowScrolling"] }}
+          onWheel={(e) => e.stopPropagation()}
+        >
           {loading && (
             <div style={{
               height: "100%", display: "flex", flexDirection: "column",
