@@ -25,6 +25,13 @@ const projects = [
     github: "https://github.com/SKYLINE217/blockchain--BATA-",
     accent: "#9D4EDD",
   },
+  {
+    title: "F1 Race Replay",
+    description: "Full-featured Formula 1 race replay simulator powered by FastF1. Reconstructs real lap-by-lap telemetry, battle sequences, and overtakes with animated race visualizations and driver position charts.",
+    tech: ["Python", "FastF1", "Matplotlib", "Pandas", "NumPy"],
+    github: "https://github.com/SKYLINE217/f1-race-replay",
+    accent: "#FF3131",
+  },
 ];
 
 function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
