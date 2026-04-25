@@ -127,7 +127,7 @@ export default function Resume() {
             </span>
           </div>
 
-          {/* PDF embed */}
+          {/* PDF embed — using <object> instead of <iframe> so X-Frame-Options never applies */}
           <div style={{ position: "relative", width: "100%", height: "820px", background: "#0a0a12" }}>
             {!loaded && (
               <div
@@ -163,9 +163,9 @@ export default function Resume() {
                 Loading document…
               </div>
             )}
-            <iframe
-              src="/resume.pdf#toolbar=0&navpanes=0&scrollbar=1&view=FitH"
-              title="Sumit Kumar Khadanga Resume"
+            <object
+              data="/resume.pdf"
+              type="application/pdf"
               width="100%"
               height="100%"
               style={{
@@ -175,7 +175,21 @@ export default function Resume() {
                 transition: "opacity 0.5s ease",
               }}
               onLoad={() => setLoaded(true)}
-            />
+            >
+              {/* Fallback for browsers that can't render PDF inline */}
+              <div style={{
+                display: "flex", flexDirection: "column", alignItems: "center",
+                justifyContent: "center", height: "100%", gap: "16px",
+                color: "#6b7280", fontFamily: "'Fira Code', monospace", fontSize: "13px",
+              }}>
+                <span style={{ fontSize: "32px" }}>📄</span>
+                <p>Your browser cannot display PDFs inline.</p>
+                <a href="/resume.pdf" target="_blank" rel="noopener noreferrer"
+                  style={{ color: "#00E5FF", textDecoration: "none" }}>
+                  Open Resume →
+                </a>
+              </div>
+            </object>
           </div>
         </motion.div>
 
