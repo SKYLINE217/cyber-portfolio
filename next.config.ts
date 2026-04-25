@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const securityHeaders = [
   {
     key: "X-Frame-Options",
-    value: "DENY",
+    value: "SAMEORIGIN",   // DENY blocked our own resume iframe
   },
   {
     key: "X-Content-Type-Options",
@@ -27,7 +27,7 @@ const securityHeaders = [
       "img-src * data: blob:",                             // GitHub readme images
       "connect-src 'self' https://api.github.com",         // README API
       "worker-src blob:",                                  // Three.js workers
-      "frame-ancestors 'none'",                            // clickjacking protection
+      "frame-ancestors 'self'",                            // allow same-origin iframe (resume PDF)
     ].join("; "),
   },
 ];
