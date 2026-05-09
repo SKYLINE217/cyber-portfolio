@@ -3,6 +3,7 @@ import { Inter, Fira_Code, Outfit } from "next/font/google";
 import "./globals.css";
 import SmoothScrollProvider from "@/components/providers/SmoothScrollProvider";
 import Navbar from "@/components/Navbar";
+import { Analytics } from '@vercel/analytics/next';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -57,6 +58,7 @@ export default function RootLayout({
           <Navbar />
           {children}
         </SmoothScrollProvider>
+        <Analytics />
       </body>
     </html>
   );
