@@ -337,7 +337,7 @@ export default function Hero() {
               ref={ctaRef}
               href="#projects"
               className="btn-primary"
-              style={{ x: sx, y: sy } as React.CSSProperties}
+              style={{ x: sx, y: sy } as any}
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
             >
