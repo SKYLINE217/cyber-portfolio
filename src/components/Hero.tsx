@@ -100,7 +100,7 @@ function DataStream({ x, delay }: { x: string; delay: number }) {
 }
 
 /* ─── Glitch Text ─────────────────────────────────────────── */
-function GlitchText({ text }: { text: string }) {
+function GlitchText({ text, gradient }: { text: string; gradient?: boolean }) {
   const [glitch, setGlitch] = useState(false);
   
   useEffect(() => {
@@ -116,7 +116,15 @@ function GlitchText({ text }: { text: string }) {
     <span style={{ 
       position: "relative", 
       display: "inline-block",
-      color: "inherit",
+      ...(gradient ? {
+        backgroundImage: "linear-gradient(90deg, #00FF87 0%, #00D4FF 50%, #9D4EDD 100%)",
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+        backgroundClip: "text",
+        color: "transparent",
+      } : {
+        color: "inherit",
+      }),
       textShadow: glitch 
         ? "4px 0 #00FF87, -4px 0 #00D4FF" 
         : "inherit",
@@ -275,15 +283,10 @@ export default function Hero() {
             Sumit Kumar
             <br />
             <span style={{ 
-              backgroundImage: "linear-gradient(90deg, #00FF87 0%, #00D4FF 50%, #9D4EDD 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-              color: "transparent", // Fallback
               display: "inline-block", 
               marginTop: "6px" 
             }}>
-              <GlitchText text="Khadanga." />
+              <GlitchText text="Khadanga." gradient={true} />
             </span>
           </motion.h1>
 
