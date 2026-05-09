@@ -274,7 +274,15 @@ export default function Hero() {
           >
             Sumit Kumar
             <br />
-            <span style={{ color: "#00D4FF", textShadow: "0 0 30px rgba(0,212,255,0.4)", display: "inline-block", marginTop: "6px" }}>
+            <span style={{ 
+              backgroundImage: "linear-gradient(90deg, #00FF87 0%, #00D4FF 50%, #9D4EDD 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              color: "transparent", // Fallback
+              display: "inline-block", 
+              marginTop: "6px" 
+            }}>
               <GlitchText text="Khadanga." />
             </span>
           </motion.h1>
