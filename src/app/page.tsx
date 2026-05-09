@@ -1,19 +1,29 @@
+'use client';
+import { useState } from 'react';
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Projects from "@/components/Projects";
 import Experience from "@/components/Experience";
 import Resume from "@/components/Resume";
 import Contact from "@/components/Contact";
+import BootScreen from "@/components/BootScreen";
 
 export default function Home() {
+  const [bootFinished, setBootFinished] = useState(false);
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between overflow-hidden">
-      <Hero />
-      <About />
-      <Projects />
-      <Experience />
-      <Resume />
-      <Contact />
-    </main>
+    <>
+      {!bootFinished && <BootScreen onFinish={() => setBootFinished(true)} />}
+      {bootFinished && (
+        <main className="flex min-h-screen flex-col items-center justify-between overflow-hidden">
+          <Hero />
+          <About />
+          <Projects />
+          <Experience />
+          <Resume />
+          <Contact />
+        </main>
+      )}
+    </>
   );
 }
