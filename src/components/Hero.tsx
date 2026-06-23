@@ -364,7 +364,7 @@ export default function Hero() {
             </a>
 
             <a
-              href="https://www.linkedin.com/in/sumit-kumar-khadanga-87797b2b6"
+              href="https://www.linkedin.com/in/sumit-kumar-khadanga-87797b2b6/"
               target="_blank" rel="noopener noreferrer"
               className="btn-ghost"
               style={{ gap: "8px" }}

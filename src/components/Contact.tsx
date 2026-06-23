@@ -243,7 +243,7 @@ export default function Contact() {
               </a>
               <a
                 id="contact-linkedin"
-                href="https://www.linkedin.com/in/sumit-kumar-khadanga-87797b2b6"
+                href="https://www.linkedin.com/in/sumit-kumar-khadanga-87797b2b6/"
                 target="_blank" rel="noopener noreferrer"
                 style={{
                   flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
