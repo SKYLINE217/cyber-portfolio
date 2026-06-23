@@ -9,7 +9,7 @@ const projects = [
   {
     title: "WinVolAuto Memory Forensics",
     short: "AI-Powered Memory Analysis",
-    description: "Professional-grade GUI on Volatility 3 with AI-powered risk scoring, MITRE ATT&CK mapping, and dynamic plugin architecture. Detects hidden rootkits and malicious processes from raw memory dumps.",
+    description: "Professional-grade desktop GUI for Volatility 3 automating memory forensics across Windows, Linux & macOS. Features dynamic plugin discovery, AI-driven risk scoring with heuristic analysis (code injection, hidden PIDs, network anomalies), MITRE ATT&CK mapping, and automated PDF/JSON report generation.",
     tech: ["Python", "PyQt6", "Volatility 3", "AI Heuristics", "MITRE ATT&CK"],
     github: "https://github.com/SKYLINE217/WinVolAuto-Memory-Forensics-Suite",
     repoId: "SKYLINE217/WinVolAuto-Memory-Forensics-Suite",
@@ -18,24 +18,36 @@ const projects = [
     featured: true,
   },
   {
+    title: "CTF Decoder",
+    short: "Adaptive Decoding Suite",
+    description: "Self-learning, modular decoding engine for CTF competitions supporting 30+ codecs. Implements a Beta-Binomial Bayesian adaptive engine that improves detection accuracy across sessions, multi-stage entropy analysis, and a sandboxed Code Script Solver for Python, C & Java.",
+    tech: ["Python", "FastAPI", "Vue 3", "SQLite", "Bayesian ML", "Vercel"],
+    github: "https://github.com/SKYLINE217/CTF-Decoder",
+    repoId: "SKYLINE217/CTF-Decoder",
+    live: "https://ctf-decoder.vercel.app",
+    accent: "#00D4FF",
+    category: "SECURITY",
+    featured: true,
+  },
+  {
     title: "Real-Time Fraud Detection",
     short: "ML-Powered Security Pipeline",
-    description: "End-to-end machine learning pipeline detecting fraudulent transactions in real time. Random Forest + SHAP explainability, Flask REST API, and a Streamlit monitoring dashboard.",
-    tech: ["Python", "Scikit-learn", "Flask", "Streamlit", "SHAP"],
+    description: "End-to-end ML pipeline with a Random Forest classifier optimised for high recall and SHAP explainability to detect fraudulent transactions in real time. Dual interfaces: a Flask REST API (/predict endpoint) and a Streamlit dashboard with live demo, audit logging & metrics.",
+    tech: ["Python", "Scikit-learn", "SHAP", "Flask", "Streamlit"],
     github: "https://github.com/SKYLINE217/AI-IN-CYBER-SECURITY",
     repoId: "SKYLINE217/AI-IN-CYBER-SECURITY",
-    accent: "#00D4FF",
+    accent: "#BF5FFF",
     category: "AI / ML",
     featured: true,
   },
   {
     title: "Blockchain Credential System",
     short: "Tamper-Proof BATA Platform",
-    description: "Decentralized academic credential issuance platform using immutable ledgers, SHA-256 hashing, and JWT auth. React frontend with MongoDB backend for scalable credential management.",
-    tech: ["React", "MongoDB", "Blockchain", "JWT", "SHA-256"],
+    description: "Decentralized academic credential issuance & verification platform using cryptographic hashing and immutable ledger principles. JWT-authenticated React frontend with Flask backend, MongoDB storage, and hash-continuity verification across the credential chain.",
+    tech: ["Python", "Flask", "React", "MongoDB", "SHA-256"],
     github: "https://github.com/SKYLINE217/blockchain--BATA-",
     repoId: "SKYLINE217/blockchain--BATA-",
-    accent: "#BF5FFF",
+    accent: "#FFB800",
     category: "BLOCKCHAIN",
     featured: false,
   },
@@ -52,7 +64,7 @@ const projects = [
   },
 ];
 
-type Project = typeof projects[0];
+type Project = typeof projects[0] & { live?: string };
 
 /* ─── README Modal ──────────────────────────────────────────── */
 function ReadmeModal({ project, onClose }: { project: Project; onClose: () => void }) {
@@ -266,6 +278,18 @@ function ProjectCard({ project, index, onOpen }: { project: Project; index: numb
           >
             <FaGithub size={16} />
           </a>
+          {(project as Project).live && (
+            <a href={(project as Project).live} target="_blank" rel="noopener noreferrer"
+              style={{ padding: "5px 10px", borderRadius: "8px", border: `1px solid ${project.accent}30`, color: project.accent, textDecoration: "none", display: "flex", alignItems: "center", gap: "5px", fontSize: "10px", fontFamily: "'Fira Code', monospace", letterSpacing: "0.08em", transition: "all 0.2s" }}
+              onMouseEnter={e => { e.currentTarget.style.background = `${project.accent}15`; e.currentTarget.style.borderColor = `${project.accent}60`; }}
+              onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.borderColor = `${project.accent}30`; }}
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+              LIVE
+            </a>
+          )}
           <button onClick={e => { e.stopPropagation(); onOpen(); }}
             style={{ padding: "7px", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.07)", color: "#6B7290", background: "none", cursor: "pointer", display: "flex", alignItems: "center", transition: "all 0.2s" }}
             onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = project.accent; (e.currentTarget as HTMLButtonElement).style.borderColor = `${project.accent}40`; }}

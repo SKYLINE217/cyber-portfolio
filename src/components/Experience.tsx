@@ -6,8 +6,8 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 const experiences = [
   {
     role: "Cybersecurity Intern",
-    company: "Edureka",
-    date: "Recent",
+    company: "Edureka (Remote)",
+    date: "Mar 2025 – Jul 2025",
     accent: "#00D4FF",
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -15,8 +15,8 @@ const experiences = [
       </svg>
     ),
     details: [
-      "Conducted vulnerability scanning and penetration testing in ethical hacking labs.",
-      "Participated in red/blue team simulations to identify and remediate system flaws.",
+      "Led peer team in ethical hacking labs covering vulnerability scanning, password cracking, and red/blue team simulations.",
+      "Completed structured curriculum on offensive security techniques, network penetration testing, and defensive countermeasures.",
       "Analyzed network traffic using Wireshark to detect anomalous patterns and intrusions.",
     ],
   },
@@ -42,17 +42,17 @@ const skillGroups = [
   {
     label: "Languages",
     accent: "#00FF87",
-    skills: ["Python", "JavaScript", "Java", "C", "SQL"],
+    skills: ["Python", "JavaScript", "Java", "C", "SQL", "HTML/CSS"],
   },
   {
     label: "Security",
     accent: "#00D4FF",
-    skills: ["Volatility 3", "Malware Analysis", "MITRE ATT&CK", "Ethical Hacking", "Wireshark", "Burp Suite"],
+    skills: ["Volatility 3", "Malware Analysis", "MITRE ATT&CK", "Ethical Hacking", "OWASP Top 10", "Wireshark", "Nmap", "Burp Suite", "Autopsy", "Sleuth Kit"],
   },
   {
-    label: "Tools & Cloud",
+    label: "Frameworks & Tools",
     accent: "#BF5FFF",
-    skills: ["Docker", "GCP", "React", "Flask", "Git", "Kali Linux"],
+    skills: ["FastAPI", "Flask", "React", "Vue 3", "PyQt6", "Streamlit", "Docker", "Git", "Kali Linux", "GCP"],
   },
 ];
 

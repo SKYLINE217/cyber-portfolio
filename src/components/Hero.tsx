@@ -138,9 +138,9 @@ function GlitchText({ text, gradient }: { text: string; gradient?: boolean }) {
 
 /* ─── Hero Stats ─────────────────────────────────────────── */
 const stats = [
-  { value: "3+", label: "Projects Built" },
+  { value: "5+", label: "Projects Built" },
   { value: "CTF", label: "Competitions" },
-  { value: "2026", label: "Graduating" },
+  { value: "3", label: "Certifications" },
 ];
 
 /* ─── Main Hero ──────────────────────────────────────────── */
